@@ -1,0 +1,111 @@
+import pandas as pd 
+import codecs
+import numpy as np
+from matplotlib import pyplot as plt 
+from sklearn.linear_model import LinearRegression as LR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import make_scorer
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
+import pandas.tseries.offsets as offsets
+import tensorflow
+import keras
+params = {'n_estimators'  : [1,10,100], 'n_jobs': [-1,-2,-3,-10],'max_depth':[3,5,10,100,1000] }
+t = 365
+period = 100
+data = pd.read_csv("/Users/odatesshuu/program/react-starter-master/data/kyoto.csv")
+
+data.shape
+
+#data.describe()
+
+#data.info()
+
+df=pd.DataFrame()
+df["datetime"]=pd.to_datetime(data["年月日"])
+df["Max_temp"]=data["最高気温(℃)"]
+df["Min_temp"]=data["最低気温(℃)"]
+df = df.set_index("datetime", drop=True)
+
+def week_dataset(df):
+    tmp=np.zeros((2,t,len(df)))
+    for i in range(1,t):
+        for j in range(len(df)):
+            tmp[0][i][j]=df.Max_temp.iloc[j-i]
+            tmp[1][i][j]=df.Min_temp.iloc[j-i]
+        df[str("Max -")+str(i)]=tmp[0][i]
+        df[str("Min -")+str(i)]=tmp[1][i]
+    return df
+        
+df=week_dataset(df)
+        
+#df.head()
+
+X=df.drop(["Max_temp","Min_temp"],axis=1)
+Y_Max=df["Max_temp"]
+Y_Min=df["Min_temp"]
+
+X_train=X[:-365]
+X_test=X[-365:]
+Y_Max_train=Y_Max[:-365]
+Y_Max_test=Y_Max[-365:]
+Y_Min_train=Y_Min[:-365]
+Y_Min_test=Y_Min[-365:]
+
+#X_train.head()
+
+mod = RandomForestRegressor()
+forest_Max = GridSearchCV(mod, params, cv = 2, n_jobs =2)
+forest_Max.fit(X_train, Y_Max_train)
+forest_Min = GridSearchCV(mod, params, cv = 2, n_jobs =2)
+forest_Min.fit(X_train, Y_Min_train)
+
+print("MaxTemp score",forest_Max.score(X_train, Y_Max_train))
+print("MinTemp score",forest_Min.score(X_train, Y_Min_train))
+
+Y_Max_pred=forest_Max.predict(X_test)
+Y_Min_pred=forest_Min.predict(X_test)
+
+result=pd.DataFrame([Y_Max_pred,Y_Min_pred],index=["MaxTemp_pred","MinTemp_pred"]).T
+result.index=X_test.index
+result["MaxTemp_act"]=Y_Max_test
+result["MinTemp_act"]=Y_Min_test
+
+print("MaxTemp pred r2score",r2_score(Y_Max_test, Y_Max_pred))
+print("MinTemp pred r2score",r2_score(Y_Min_test, Y_Min_pred))
+
+#print(result)
+
+#result.plot(figsize=(30,9))
+
+pred=pd.DataFrame()
+pred["datetime"]=pd.to_datetime(["2020-08-28"])
+pred.index=pred.datetime
+pred=pred.drop("datetime",axis=1)
+for i in range(1,t):
+    pred["Max -"+str(i)] = result.MaxTemp_act[-i]
+    pred["Min -"+str(i)] = result.MinTemp_act[-i]
+pred
+
+Y_Max_pred = forest_Max.predict(pred)[0]
+Y_Min_pred = forest_Min.predict(pred)[0]
+print(Y_Max_pred)
+print(Y_Min_pred)
+
+newPred = pd.DataFrame()
+today = result.index[-1]
+for g in range(1, period):
+    newPred["datetime"] = pd.to_datetime([today + offsets.Day(g)])
+    newPred.index = newPred.datetime
+    newPred = newPred.drop("datetime", axis=1)
+    newPred["Max -1"] = Y_Max_pred
+    newPred["Min -1"] = Y_Min_pred
+    for i in range(1, t-1):
+        newPred["Max -"+str(i+1)] = pred["Max -"+str(i)][0]
+        newPred["Min -"+str(i+1)] = pred["Min -"+str(i)][0]
+    Y_Max_pred = forest_Max.predict(newPred)[0]
+    Y_Min_pred = forest_Min.predict(newPred)[0]
+    print("Max temp", Y_Max_pred)
+
+    pred = newPred
