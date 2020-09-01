@@ -11,9 +11,10 @@ from sklearn.metrics import r2_score
 import pandas.tseries.offsets as offsets
 import tensorflow
 import keras
-params = {'n_estimators'  : [10], 'n_jobs': [-1],'max_depth':[10] }
+
 t = 270
-period = 7
+period = 30
+leaf = 20
 data = pd.read_csv("/Users/odatesshuu/program/react-starter-master/data/kyoto.csv")
 
 data.shape
@@ -55,10 +56,9 @@ Y_Min_test=Y_Min[-365:]
 
 #X_train.head()
 
-mod = RandomForestRegressor()
-forest_Max = GridSearchCV(mod, params, cv = 2, n_jobs =2)
+forest_Max = RandomForestRegressor(min_samples_leaf=leaf, random_state=0)
 forest_Max.fit(X_train, Y_Max_train)
-forest_Min = GridSearchCV(mod, params, cv = 2, n_jobs =2)
+forest_Min = RandomForestRegressor(min_samples_leaf=leaf, random_state=0)
 forest_Min.fit(X_train, Y_Min_train)
 
 #MaxTempScore
@@ -91,6 +91,8 @@ for i in range(1,t):
 Y_Max_pred = forest_Max.predict(pred)[0]
 Y_Min_pred = forest_Min.predict(pred)[0]
 
+print(Y_Max_pred)
+print(Y_Min_pred)
 #最初の予測を突っ込む
 today = result.index[-1]
 predList = pd.DataFrame(

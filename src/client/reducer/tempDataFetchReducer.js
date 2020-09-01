@@ -18,7 +18,9 @@ const tempDataFetchReducer = (dataState, action) => {
         MinTempScore: action.payload[1],
         MaxTempPredR2Score: action.payload[2],
         MinTempPredR2Score: action.payload[3],
-        PredData: JSON.parse(action.payload[4]),
+        TodayMaxTemp: action.payload[4],
+        TodayMinTemp: action.payload[5],
+        PredData: JSON.parse(action.payload[6]),
       };
     //データの取得に失敗した場合
     //成功なので、isErrorにエラーメッセージを設定

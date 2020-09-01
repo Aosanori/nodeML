@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {TempDataContext}from'../provider/tempDataProvider';
 import Title from './Title.js';
-
+import moment from 'moment';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -19,18 +19,18 @@ const useStyles = makeStyles({
 
 // eslint-disable-next-line react/prop-types
 const Deposits = () =>
-{
-  const { state } = useContext( TempDataContext ); 
+{ 
+  const { state } = useContext(TempDataContext); 
   console.log(state)
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Max Temperature</Title>
       <Typography component="p" variant="h4">
-        {state.MaxTempScore}
+       {Math.round(state.TodayMaxTemp*10)/10}°C
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        on 1 September, 2020
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
