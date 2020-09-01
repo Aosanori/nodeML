@@ -38,7 +38,7 @@ const  Chart = () => {
             <Label
               angle={270}
               position="left"
-              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
+              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
             >
               Temp (°C)
             </Label>
