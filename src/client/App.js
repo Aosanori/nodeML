@@ -25,6 +25,7 @@ import Chart from './dashboard/Chart.js';
 import Deposits from './dashboard/Deposits.js';
 import Orders from './dashboard/Orders.js';
 import { TempDataContext } from './provider/tempDataProvider.js';
+import Title from './dashboard/Title.js';
 
 const apiURL = 'http://localhost:8080/api';
 
@@ -47,7 +48,7 @@ function Copyright() {
 export const App = () =>
 {
   // useContextでThemeContextのstateとdispatchを使用する(コンテキスト値)
-  const { dispatch } = useContext( TempDataContext );
+  const { state,dispatch } = useContext( TempDataContext );
   
   const getData = () =>
   {
@@ -65,7 +66,7 @@ export const App = () =>
   };
 
     //initState?
-    useEffect(() => getData(),[]);
+  useEffect( () => { getData() },[]);
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -135,15 +136,28 @@ export const App = () =>
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
               {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper className={fixedHeightPaper}>
+              <Grid item xs={12} md={12} lg={12}>
+                <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
                   <Chart />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+              <Grid item xs={12} md={6} lg={6}>
                 <Paper className={fixedHeightPaper}>
-                  <Deposits/>
+                  <Title>Max Temperature</Title>
+                  <Deposits
+                    Temp={state.TodayMaxTemp}
+                    ActuallyTemp={state.ActuallyMaxTemp}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6} lg={6}>
+                <Paper className={fixedHeightPaper}>
+                  <Title>Min Temperature</Title>
+                  <Deposits
+                    Temp={state.TodayMinTemp}
+                    ActuallyTemp={state.ActuallyMinTemp}
+                  />
                 </Paper>
               </Grid>
               {/* Recent Orders */}
@@ -240,5 +254,8 @@ export const App = () =>
     },
     fixedHeight: {
       height: 240,
+    },
+    fixedHeight2: {
+      height: 480,
     },
   }));

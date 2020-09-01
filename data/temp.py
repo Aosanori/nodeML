@@ -11,6 +11,8 @@ from sklearn.metrics import r2_score
 import pandas.tseries.offsets as offsets
 import tensorflow
 import keras
+from bs4 import BeautifulSoup
+import requests
 
 t = 270
 period = 30
@@ -120,3 +122,12 @@ for g in range(2, period):
 
     pred = newPred
 print(predList.to_json(date_format='iso'))
+
+load_url = "https://www.jma.go.jp/jp/amedas_h/today-61326.html?areaCode=000&groupCode=44"
+html = requests.get(load_url)
+soup = BeautifulSoup(html.content, "html.parser")
+actuallyMaxTemp = soup.find_all(class_="td_arrange middle")[0].text
+actuallyMinTemp = soup.find_all(class_="td_arrange top")[1].text
+
+print(actuallyMaxTemp)
+print(actuallyMinTemp)
