@@ -27,7 +27,7 @@ const Deposits = () =>
     <React.Fragment>
       <Title>Max Temperature</Title>
       <Typography component="p" variant="h4">
-        {state.data[4]}
+        {state.MaxTempScore}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         on 15 March, 2019

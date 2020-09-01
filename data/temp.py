@@ -61,8 +61,9 @@ forest_Max.fit(X_train, Y_Max_train)
 forest_Min = GridSearchCV(mod, params, cv = 2, n_jobs =2)
 forest_Min.fit(X_train, Y_Min_train)
 
-print("MaxTemp score",forest_Max.score(X_train, Y_Max_train))
-print("MinTemp score",forest_Min.score(X_train, Y_Min_train))
+#MaxTempScore
+print(forest_Max.score(X_train, Y_Max_train))
+print(forest_Min.score(X_train, Y_Min_train))
 
 Y_Max_pred=forest_Max.predict(X_test)
 Y_Min_pred=forest_Min.predict(X_test)
@@ -72,8 +73,8 @@ result.index=X_test.index
 result["MaxTemp_act"]=Y_Max_test
 result["MinTemp_act"]=Y_Min_test
 
-print("MaxTemp pred r2score",r2_score(Y_Max_test, Y_Max_pred))
-print("MinTemp pred r2score",r2_score(Y_Min_test, Y_Min_pred))
+print(r2_score(Y_Max_test, Y_Max_pred))
+print(r2_score(Y_Min_test, Y_Min_pred))
 
 #print(result)
 
@@ -116,4 +117,4 @@ for g in range(2, period):
     predList.loc[today + offsets.Day(g)] = [Y_Max_pred, Y_Min_pred]
 
     pred = newPred
-print(predList.to_json())
+print(predList.to_json(date_format='iso'))
