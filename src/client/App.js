@@ -1,5 +1,6 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import './App.css';
+import axios from 'axios';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,7 +24,9 @@ import { mainListItems, secondaryListItems } from './dashboard/mainlistItems.js'
 import Chart from './dashboard/Chart.js';
 import Deposits from './dashboard/Deposits.js';
 import Orders from './dashboard/Orders.js';
+import { TempDataContext } from './provider/tempDataProvider.js';
 
+const apiURL = 'http://localhost:8080/api';
 
 function Copyright() {
   return (
@@ -43,10 +46,29 @@ function Copyright() {
 
 export const App = () =>
 {
+  // useContextでThemeContextのstateとdispatchを使用する(コンテキスト値)
+  const { dispatch } = useContext( TempDataContext );
   
+  const getData = () =>
+  {
+    axios
+      .get(apiURL + '/')
+      .then((res) => {
+        dispatch({
+          type: 'FETCH_SUCCESS',
+          payload: res.data,
+        });
+      })
+      .catch(() => {
+        dispatch({ type: 'FETCH_ERROR' });
+      });
+  };
+
+    //initState?
+    useEffect(() => getData(),[]);
 
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const handleDrawerOpen = () => {
       setOpen(true);
     };

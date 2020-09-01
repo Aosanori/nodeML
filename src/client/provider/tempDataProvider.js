@@ -17,9 +17,8 @@ export const TempDataContextProvider = ( { children } ) =>
     tempDataFetchReducer,
     initialTempState
   );
-  console.log(state)
   return (
-    <TempDataContext.Provider value={{ state, dispatch }}>
+    <TempDataContext.Provider value={{state, dispatch}}>
       {children}
     </TempDataContext.Provider>
   );

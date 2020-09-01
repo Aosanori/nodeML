@@ -11,7 +11,6 @@ const tempDataFetchReducer = (dataState, action) => {
     //成功なので、isErrorは''
     //postにはactionで渡されるpayloadを代入
     case 'FETCH_SUCCESS':
-      console.log('Fetched');
       return {
         isLoading: false,
         isError: '',

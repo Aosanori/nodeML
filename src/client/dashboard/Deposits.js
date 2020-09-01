@@ -1,9 +1,10 @@
-import React,{useEffect,useState} from 'react';
+/* eslint-disable react/prop-types */
+import React, { useContext } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import {TempDataContext}from'../provider/tempDataProvider';
 import Title from './Title.js';
-import axios from 'axios';
 
 
 function preventDefault(event) {
@@ -16,24 +17,17 @@ const useStyles = makeStyles({
   },
 } );
 
-const apiURL = 'http://localhost:8080/api';
-
-
+// eslint-disable-next-line react/prop-types
 const Deposits = () =>
 {
-  const [data, setData] = useState('');
-  const getData = () => {
-    axios.get( apiURL  ).then( ( res ) => { setData( res.data ) });
-  };
-  //initState?
-  useEffect(() => getData(), []);
-
+  const { state } = useContext( TempDataContext ); 
+  console.log(state)
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Max Temperature</Title>
       <Typography component="p" variant="h4">
-        {data[5]}
+        {state.data[4]}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         on 15 March, 2019

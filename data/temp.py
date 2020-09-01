@@ -11,9 +11,9 @@ from sklearn.metrics import r2_score
 import pandas.tseries.offsets as offsets
 import tensorflow
 import keras
-params = {'n_estimators'  : [1,10,100], 'n_jobs': [-1,-2,-3,-10],'max_depth':[3,5,10,100,1000] }
-t = 365
-period = 100
+params = {'n_estimators'  : [10], 'n_jobs': [-1],'max_depth':[10] }
+t = 270
+period = 7
 data = pd.read_csv("/Users/odatesshuu/program/react-starter-master/data/kyoto.csv")
 
 data.shape
@@ -80,22 +80,29 @@ print("MinTemp pred r2score",r2_score(Y_Min_test, Y_Min_pred))
 #result.plot(figsize=(30,9))
 
 pred=pd.DataFrame()
-pred["datetime"]=pd.to_datetime(["2020-08-28"])
+pred["datetime"] = pd.to_datetime([result.index[-1]])
 pred.index=pred.datetime
 pred=pred.drop("datetime",axis=1)
 for i in range(1,t):
     pred["Max -"+str(i)] = result.MaxTemp_act[-i]
     pred["Min -"+str(i)] = result.MinTemp_act[-i]
-pred
 
 Y_Max_pred = forest_Max.predict(pred)[0]
 Y_Min_pred = forest_Min.predict(pred)[0]
-print(Y_Max_pred)
-print(Y_Min_pred)
 
+#最初の予測を突っ込む
+today = result.index[-1]
+predList = pd.DataFrame(
+    {'Max': [Y_Max_pred], 'Min': [Y_Min_pred]}
+)
+predList["datetime"] = pd.to_datetime([today + offsets.Day()])
+predList.index = predList.datetime
+predList = predList.drop("datetime", axis=1)
+
+#一個右にずらしながら格納していく
 newPred = pd.DataFrame()
 today = result.index[-1]
-for g in range(1, period):
+for g in range(2, period):
     newPred["datetime"] = pd.to_datetime([today + offsets.Day(g)])
     newPred.index = newPred.datetime
     newPred = newPred.drop("datetime", axis=1)
@@ -106,6 +113,7 @@ for g in range(1, period):
         newPred["Min -"+str(i+1)] = pred["Min -"+str(i)][0]
     Y_Max_pred = forest_Max.predict(newPred)[0]
     Y_Min_pred = forest_Min.predict(newPred)[0]
-    print("Max temp", Y_Max_pred)
+    predList.loc[today + offsets.Day(g)] = [Y_Max_pred, Y_Min_pred]
 
     pred = newPred
+print(predList.to_json())
