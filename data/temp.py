@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 import requests
 
 t = 270
-period = 30
+period = 100
 leaf = 20
 data = pd.read_csv("/Users/odatesshuu/program/react-starter-master/data/kyoto.csv")
 

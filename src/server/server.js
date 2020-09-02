@@ -17,7 +17,7 @@ var options = {
   pythonOptions: ['-u'],
 };
 
-cron.schedule( '0 18 20 * * *', () =>
+cron.schedule( '0 0 20 * * *', () =>
 {
   PythonShell.run(
     '/Users/odatesshuu/program/react-starter-master/data/csv_writing.py',

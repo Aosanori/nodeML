@@ -11,6 +11,6 @@ actuallyMaxTemp = soup.find_all(class_="td_arrange middle")[0].text
 actuallyMinTemp = soup.find_all(class_="td_arrange top")[1].text
 
 today = datetime.today().strftime("%Y/%-m/%-d")
-with open('../data/kyoto.csv', 'a') as f:
+with open('/Users/odatesshuu/program/react-starter-master/data/kyoto.csv', 'a', newline='') as f:
     writer = csv.writer(f)
     writer.writerow([today, actuallyMaxTemp, actuallyMinTemp])
