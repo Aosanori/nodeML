@@ -10,7 +10,6 @@ const ScoreDisplay = (props) =>
       console.log(state);
       return (
         <React.Fragment>
-              <Title>{props.title}</Title>
           <Typography component="p" variant="h4">
             {Math.round(props.score * 1000) / 1000}
           </Typography>

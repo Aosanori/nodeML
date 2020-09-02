@@ -27,7 +27,6 @@ const TemperatureDisplay = (props) =>
         {Math.round(props.Temp * 10) / 10}°C
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 2 September, 2020
       </Typography>
       <Typography component="p" variant="h6" className={classes.depositContext}>
         Actually
@@ -36,7 +35,7 @@ const TemperatureDisplay = (props) =>
         {Math.round(props.ActuallyTemp * 10) / 10}°C
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        from JMA
+        from JMA @{props.TempTime}
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>

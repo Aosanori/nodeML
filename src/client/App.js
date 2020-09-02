@@ -23,10 +23,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './dashboard/mainlistItems.js';
 import Chart from './dashboard/Chart.js';
 import TemperatureDisplay from './dashboard/TemperatureDisplay.js';
-import Orders from './dashboard/Orders.js';
 import { TempDataContext } from './provider/tempDataProvider.js';
 import ScoreDisplay from './dashboard/scoreDisplay.js'
 import Title from './dashboard/Title.js';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import CompareChart from './dashboard/CompareChart.js';
 
 const apiURL = 'http://localhost:8080/api';
 
@@ -44,6 +46,14 @@ function Copyright() {
 }
 
 
+function getNowYMD() {
+  var dt = new Date();
+  var y = dt.getFullYear();
+  var m = ('00' + (dt.getMonth() + 1)).slice(-2);
+  var d = ('00' + dt.getDate()).slice(-2);
+  var result = y + '/' + m + '/' + d;
+  return result;
+}
 
 
 export const App = () =>
@@ -66,8 +76,41 @@ export const App = () =>
       });
   };
 
-    //initState?
-  useEffect( () => { getData() },[]);
+function createCompareData()
+{
+  if ( !state.isLoading )
+  {
+    const PredTemp = state.FittedPredData.slice( 0, 11 );
+    const ForecastMaxTemp = state.ActuallyMaxTempList;
+    const ForecastMinTemp = state.ActuallyMinTempList;
+    var List = [];
+    var diff = 0;
+    for ( let i = 0; i < PredTemp.length; i++ )
+    {
+      diff +=
+        Math.abs( PredTemp[i].MaxTemp - ForecastMaxTemp[i] ) +
+        Math.abs( PredTemp[i].MinTemp - ForecastMinTemp[i] );
+      List.push( {
+        time: PredTemp[i].time,
+        PredMaxTemp: PredTemp[i].MaxTemp,
+        PredMinTemp: PredTemp[i].MinTemp,
+        ForecastMaxTemp: ForecastMaxTemp[i],
+        ForecastMinTemp: ForecastMinTemp[i],
+      } );
+    }
+    return {
+      compareList: List,
+      compareDiff: diff / (List.length * 2),
+    };
+  }
+  return { compareList: [], compareDiff: 0 };
+  }
+  
+  var { compareList, compareDiff } = createCompareData();
+  //initState?
+  useEffect(() => {
+    getData();
+  }, []);
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -106,7 +149,7 @@ export const App = () =>
               noWrap
               className={classes.title}
             >
-              Dashboard
+              {getNowYMD()}
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -139,64 +182,104 @@ export const App = () =>
               {/* Chart */}
               <Grid item xs={12} md={12} lg={12}>
                 <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
-                  <Chart />
+                  {state.isLoading ? <LinearProgress /> : <Chart />}
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
               <Grid item xs={6} md={6} lg={6}>
                 <Paper className={fixedHeightPaper}>
                   <Title>Max Temperature</Title>
-                  <TemperatureDisplay
-                    Temp={state.TodayMaxTemp}
-                    ActuallyTemp={state.ActuallyMaxTemp}
-                  />
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <TemperatureDisplay
+                      Temp={state.TodayMaxTemp}
+                      ActuallyTemp={state.ActuallyMaxTemp}
+                      TempTime={state.MaxTempTime}
+                    />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={6} md={6} lg={6}>
                 <Paper className={fixedHeightPaper}>
                   <Title>Min Temperature</Title>
-                  <TemperatureDisplay
-                    Temp={state.TodayMinTemp}
-                    ActuallyTemp={state.ActuallyMinTemp}
-                  />
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <TemperatureDisplay
+                      Temp={state.TodayMinTemp}
+                      ActuallyTemp={state.ActuallyMinTemp}
+                      TempTime={state.MinTempTime}
+                    />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={6} md={3} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <ScoreDisplay
-                    score={state.MaxTempScore}
-                    title={'MaxTempScore'}
-                  />
+                  <Title>MaxTempScore</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={state.MaxTempScore} />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={6} md={3} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <ScoreDisplay
-                    score={state.MinTempScore}
-                    title={'MinTempScore'}
-                  />
+                  <Title>MinTempScore</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={state.MinTempScore} />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={6} md={3} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <ScoreDisplay
-                    score={state.MaxTempPredR2Score}
-                    title={'MaxTempPredR2Score'}
-                  />
+                  <Title>MaxTempPredR2Score</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={state.MaxTempPredR2Score} />
+                  )}
                 </Paper>
               </Grid>
               <Grid item xs={6} md={3} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                  <ScoreDisplay
-                    score={state.MinTempPredR2Score}
-                    title={'MinTempPredR2Score'}
-                  />
+                  <Title>MinTempPredR2Score</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={state.MinTempPredR2Score} />
+                  )}
                 </Paper>
               </Grid>
               {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <Orders />
+              <Grid item xs={8} md={8} lg={8}>
+                <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
+                  {state.isLoading ? (
+                    <LinearProgress />
+                  ) : (
+                    <CompareChart data={compareList} />
+                  )}
+                </Paper>
+              </Grid>
+              <Grid item xs={4} md={4} lg={4}>
+                <Paper className={fixedHeightPaper}>
+                  <Title>Mean error</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={compareDiff} />
+                  )}
+                </Paper>
+                <Paper className={fixedHeightPaper}>
+                  <Title>MinTempPredR2Score</Title>
+                  {state.isLoading ? (
+                    <CircularProgress />
+                  ) : (
+                    <ScoreDisplay score={state.MinTempPredR2Score} />
+                  )}
                 </Paper>
               </Grid>
             </Grid>
@@ -290,5 +373,8 @@ export const App = () =>
     },
     fixedHeight2: {
       height: 480,
+    },
+    fixedHeight3: {
+      height: 220,
     },
   }));

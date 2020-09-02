@@ -128,6 +128,22 @@ html = requests.get(load_url)
 soup = BeautifulSoup(html.content, "html.parser")
 actuallyMaxTemp = soup.find_all(class_="td_arrange middle")[0].text
 actuallyMinTemp = soup.find_all(class_="td_arrange top")[1].text
+MaxTempTime = soup.find_all(class_="td_temp middle")[0].text
+MinTempTime = soup.find_all(class_="td_temp top")[1].text
 
 print(actuallyMaxTemp)
 print(actuallyMinTemp)
+print(MaxTempTime)
+print(MinTempTime)
+
+load_url2 = "https://tenki.jp/week/6/29/"
+html2 = requests.get(load_url2)
+soup2 = BeautifulSoup(html2.content, "html.parser")
+actuallyMaxTempElement = soup2.find_all(class_="high-temp")
+actuallyMinTempElement = soup2.find_all(class_="low-temp")
+actuallyMaxTempList = list(map(lambda x: x.text, actuallyMaxTempElement))
+actuallyMinTempList = list(map(lambda x: x.text, actuallyMinTempElement))
+del actuallyMaxTempList[11:]
+del actuallyMinTempList[11:]
+print(list(map(lambda x: int(x), actuallyMaxTempList)))
+print(list(map(lambda x: int(x), actuallyMinTempList)))
