@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer ,CartesianGrid } from 'recharts';
 import { TempDataContext } from '../provider/tempDataProvider';
 import moment from 'moment';
 
@@ -43,6 +43,10 @@ const  Chart = () => {
               Temp (°C)
             </Label>
           </YAxis>
+          <CartesianGrid // ガイド線の表示
+            stroke="#ccc"
+            strokeDasharray="3 3"
+          />
           <Line
             type="monotone"
             dataKey="amount"

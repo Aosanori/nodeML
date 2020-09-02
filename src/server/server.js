@@ -3,6 +3,7 @@ import path from 'path';
 import config from 'config';
 import{ PythonShell } from 'python-shell' ;
 import {logger} from './config';
+var cron = require( 'node-cron' );
 
 const app = express();
 
@@ -15,6 +16,18 @@ var options = {
   pythonPath: '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python', // Python3のパスを指定しないと動かないので注意
   pythonOptions: ['-u'],
 };
+
+cron.schedule( '0 18 20 * * *', () =>
+{
+  PythonShell.run(
+    '/Users/odatesshuu/program/react-starter-master/data/csv_writing.py',
+    options,
+    function(err, result) {
+      if (err) throw err;
+      console.log(result);
+    }
+  );
+});
 
 app.get('/api', (req, res) => {
   PythonShell.run(

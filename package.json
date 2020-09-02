@@ -72,6 +72,7 @@
     "express": "^4.16.4",
     "log4js": "^3.0.6",
     "moment": "^2.27.0",
+    "node-cron": "^2.0.3",
     "python-shell": "^2.0.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
