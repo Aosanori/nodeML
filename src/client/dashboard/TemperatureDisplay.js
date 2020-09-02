@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 } );
 
 // eslint-disable-next-line react/prop-types
-const Deposits = (props) =>
+const TemperatureDisplay = (props) =>
 { 
   const { state } = useContext(TempDataContext); 
   console.log(state)
@@ -47,4 +47,4 @@ const Deposits = (props) =>
   );
 }
 
-export default Deposits
+export default TemperatureDisplay;

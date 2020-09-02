@@ -22,9 +22,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './dashboard/mainlistItems.js';
 import Chart from './dashboard/Chart.js';
-import Deposits from './dashboard/Deposits.js';
+import TemperatureDisplay from './dashboard/TemperatureDisplay.js';
 import Orders from './dashboard/Orders.js';
 import { TempDataContext } from './provider/tempDataProvider.js';
+import ScoreDisplay from './dashboard/scoreDisplay.js'
 import Title from './dashboard/Title.js';
 
 const apiURL = 'http://localhost:8080/api';
@@ -142,21 +143,53 @@ export const App = () =>
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={6} md={6} lg={6}>
                 <Paper className={fixedHeightPaper}>
                   <Title>Max Temperature</Title>
-                  <Deposits
+                  <TemperatureDisplay
                     Temp={state.TodayMaxTemp}
                     ActuallyTemp={state.ActuallyMaxTemp}
                   />
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={6} md={6} lg={6}>
                 <Paper className={fixedHeightPaper}>
                   <Title>Min Temperature</Title>
-                  <Deposits
+                  <TemperatureDisplay
                     Temp={state.TodayMinTemp}
                     ActuallyTemp={state.ActuallyMinTemp}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6} md={3} lg={3}>
+                <Paper className={fixedHeightPaper}>
+                  <ScoreDisplay
+                    score={state.MaxTempScore}
+                    title={'MaxTempScore'}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6} md={3} lg={3}>
+                <Paper className={fixedHeightPaper}>
+                  <ScoreDisplay
+                    score={state.MinTempScore}
+                    title={'MinTempScore'}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6} md={3} lg={3}>
+                <Paper className={fixedHeightPaper}>
+                  <ScoreDisplay
+                    score={state.MaxTempPredR2Score}
+                    title={'MaxTempPredR2Score'}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={6} md={3} lg={3}>
+                <Paper className={fixedHeightPaper}>
+                  <ScoreDisplay
+                    score={state.MinTempPredR2Score}
+                    title={'MinTempPredR2Score'}
                   />
                 </Paper>
               </Grid>
