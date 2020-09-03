@@ -3,5 +3,4 @@ matplotlib
 BeautifulSoup4==4.9.0
 requests
 sklearn
-codecs
 pandas
