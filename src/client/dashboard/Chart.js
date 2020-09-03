@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer ,CartesianGrid,Tooltip } from 'recharts';
@@ -6,13 +7,13 @@ import moment from 'moment';
 import Title from './Title.js';
 
 
-const  Chart = () => {
+const  Chart = (props) => {
   const theme = useTheme();
   const { state } = useContext( TempDataContext );
   
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>{props.title}</Title>
       <ResponsiveContainer>
         <LineChart
           data={state.FittedPredData}

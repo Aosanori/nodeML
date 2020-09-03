@@ -29,7 +29,6 @@ import Title from './dashboard/Title.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CompareChart from './dashboard/CompareChart.js';
-
 const apiURL = 'http://localhost:8080/api';
 
 function Copyright() {
@@ -182,7 +181,11 @@ function createCompareData()
               {/* Chart */}
               <Grid item xs={12} md={12} lg={12}>
                 <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
-                  {state.isLoading ? <LinearProgress /> : <Chart />}
+                  {state.isLoading ? (
+                    <LinearProgress />
+                  ) : (
+                    <Chart title={'Forecast'} />
+                  )}
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -260,7 +263,7 @@ function createCompareData()
                   {state.isLoading ? (
                     <LinearProgress />
                   ) : (
-                    <CompareChart data={compareList} />
+                    <CompareChart data={compareList} title={'Compare'} />
                   )}
                 </Paper>
               </Grid>
@@ -270,15 +273,7 @@ function createCompareData()
                   {state.isLoading ? (
                     <CircularProgress />
                   ) : (
-                    <ScoreDisplay score={compareDiff} />
-                  )}
-                </Paper>
-                <Paper className={fixedHeightPaper}>
-                  <Title>MinTempPredR2Score</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={state.MinTempPredR2Score} />
+                    <ScoreDisplay score={compareDiff} unit={'°C'} />
                   )}
                 </Paper>
               </Grid>

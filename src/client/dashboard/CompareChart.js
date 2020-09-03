@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import {
@@ -17,10 +18,9 @@ const CompareChart = (props) => {
   const theme = useTheme();
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>{props.title}</Title>
       <ResponsiveContainer>
         <LineChart
-          // eslint-disable-next-line react/prop-types
           data={props.data}
           margin={{
             top: 16,

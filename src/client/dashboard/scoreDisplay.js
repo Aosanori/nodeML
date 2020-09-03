@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { TempDataContext } from '../provider/tempDataProvider';
-import Title from './Title.js';
 
 const ScoreDisplay = (props) =>
     {
@@ -11,7 +10,7 @@ const ScoreDisplay = (props) =>
       return (
         <React.Fragment>
           <Typography component="p" variant="h4">
-            {Math.round(props.score * 1000) / 1000}
+            {Math.round(props.score * 1000) / 1000}{props.unit!== undefined?props.unit:''}
           </Typography>
         </React.Fragment>
       );
