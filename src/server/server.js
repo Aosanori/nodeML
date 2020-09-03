@@ -4,12 +4,14 @@ import config from 'config';
 import{ PythonShell } from 'python-shell' ;
 import {logger} from './config';
 var cron = require( 'node-cron' );
+const cors = require( 'cors' );
 
 const app = express();
 
 const serverConfig = config.get('server');
 
 app.use( express.static( path.join( './', 'dist' ) ) );
+app.use( cors() );
 
 var options = {
   mode: 'text', // textもしくはjson
