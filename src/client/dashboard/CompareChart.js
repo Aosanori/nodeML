@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import {
   LineChart,
@@ -10,15 +10,11 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-import { TempDataContext } from '../provider/tempDataProvider';
 import moment from 'moment';
 import Title from './Title.js';
 
 const CompareChart = (props) => {
   const theme = useTheme();
-  const { state } = useContext(TempDataContext);
-
-  
   return (
     <React.Fragment>
       <Title>Today</Title>
@@ -36,13 +32,13 @@ const CompareChart = (props) => {
           <XAxis
             dataKey="time"
             stroke={theme.palette.text.secondary}
-            labelFormatter={(props) => moment(props).format("YYYY/MM/DD(ddd)")}
+            labelFormatter={(props) => moment(props).format('YYYY/MM/DD(ddd)')}
           />
           <YAxis stroke={theme.palette.text.secondary}>
             <Label
               angle={270}
               position="left"
-              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
+              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
             >
               Temp (°C)
             </Label>
@@ -52,7 +48,7 @@ const CompareChart = (props) => {
             strokeDasharray="3 3"
           />
           <Tooltip // ツールチップの表示
-            labelFormatter={(props) => moment(props).format("YYYY/MM/DD(ddd)")} // ラベルの表示フォーマット（日付）
+            labelFormatter={(props) => moment(props).format('YYYY/MM/DD(ddd)')} // ラベルの表示フォーマット（日付）
           />
           <Line
             type="monotone"
