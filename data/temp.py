@@ -14,6 +14,10 @@ import keras
 from bs4 import BeautifulSoup
 import requests
 
+import subprocess
+import sys
+subprocess.call([sys.executable, "-r", "pip3", "install", 'requirements.txt'])
+
 t = 270
 period = 100
 leaf = 20

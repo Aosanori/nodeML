@@ -7,15 +7,16 @@ var cron = require( 'node-cron' );
 const cors = require( 'cors' );
 
 const app = express();
-app.use(cors());
+app.use( cors() );
 const serverConfig = config.get('server');
 
 app.use( express.static( path.join( './', 'dist' ) ) );
 
 
-var options = {
+
+const options = {
   mode: 'text', // textもしくはjson
-  pythonPath: '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python', // Python3のパスを指定しないと動かないので注意
+  pythonPath: '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python' || 'python3', // Python3のパスを指定しないと動かないので注意
   pythonOptions: ['-u'],
 };
 

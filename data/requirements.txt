@@ -1,0 +1,8 @@
+numpy
+matplotlib
+tensorflow
+keras
+BeautifulSoup
+requests
+subprocess
+sys

@@ -4,6 +4,11 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 import requests
 
+import subprocess
+import sys
+subprocess.call([sys.executable, "-r", "pip3", "install", 'requirements.txt'])
+
+
 load_url = "https://www.jma.go.jp/jp/amedas_h/today-61326.html?areaCode=000&groupCode=44"
 html = requests.get(load_url)
 soup = BeautifulSoup(html.content, "html.parser")
