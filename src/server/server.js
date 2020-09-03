@@ -5,7 +5,7 @@ import{ PythonShell } from 'python-shell' ;
 import {logger} from './config';
 var cron = require( 'node-cron' );
 
-const app = express();
+const app = express( 'port', ( process.env.PORT || 5000 ));
 
 const serverConfig = config.get('server');
 
