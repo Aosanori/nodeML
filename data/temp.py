@@ -9,8 +9,6 @@ from sklearn.metrics import make_scorer
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 import pandas.tseries.offsets as offsets
-import tensorflow
-import keras
 from bs4 import BeautifulSoup
 import requests
 

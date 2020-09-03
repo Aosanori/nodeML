@@ -16,7 +16,9 @@ app.use( express.static( path.join( './', 'dist' ) ) );
 
 const options = {
   mode: 'text', // textもしくはjson
-  pythonPath: '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python' || 'python3', // Python3のパスを指定しないと動かないので注意
+  pythonPath:
+    '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python' ||
+    '/app/.heroku/python/bin/python', // Python3のパスを指定しないと動かないので注意
   pythonOptions: ['-u'],
 };
 

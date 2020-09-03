@@ -1,8 +1,6 @@
 numpy
 matplotlib
-tensorflow
-keras
-BeautifulSoup
+BeautifulSoup==4.9.0
 requests
 subprocess
 sys
