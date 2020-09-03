@@ -2,7 +2,6 @@ numpy
 matplotlib
 BeautifulSoup4==4.9.0
 requests
-offsets
 sklearn
 pyplot
 codecs
