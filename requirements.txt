@@ -1,6 +1,13 @@
 numpy
 matplotlib
-BeautifulSoup==4.9.0
+BeautifulSoup4==4.9.0
 requests
 subprocess
 sys
+csv
+pprint
+offsets
+sklearn
+pyplot
+codecs
+pandas
