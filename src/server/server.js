@@ -5,7 +5,7 @@ import{ PythonShell } from 'python-shell' ;
 import {logger} from './config';
 var cron = require( 'node-cron' );
 
-const app = express( 'port', ( process.env.PORT || 5000 ));
+const app = express();
 
 const serverConfig = config.get('server');
 
@@ -47,6 +47,8 @@ app.get( '*', function ( req, res )
   res.sendFile(path.join(__dirname + './', 'dist', 'index.html'));
 })
 
-app.listen(serverConfig.port, ()=> {
-  logger.info(`server starting -> [port] ${serverConfig.port} [env] ${process.env.NODE_ENV}`)
-})
+app.listen(process.env.PORT || serverConfig.port, () => {
+  logger.info(
+    `server starting -> [port] ${serverConfig.port} [env] ${process.env.NODE_ENV}`
+  );
+});
