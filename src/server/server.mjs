@@ -1,10 +1,11 @@
 import express from 'express';
 import path from 'path';
 import config from 'config';
-import{ PythonShell } from 'python-shell' ;
-import {logger} from './config';
-var cron = require( 'node-cron' );
-const cors = require( 'cors' );
+import Python from 'python-shell';
+const {PythonShell}=Python
+//import {logger} from './config.js';
+import cron from 'node-cron' ;
+import cors from 'cors' 
 
 const app = express();
 app.use( cors() );
@@ -18,7 +19,7 @@ const options = {
   mode: 'text', // textもしくはjson
   pythonPath:
     '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python' ||
-    '/app/.heroku/python/bin/python', // Python3のパスを指定しないと動かないので注意
+    '/usr/local/bin/python', // Python3のパスを指定しないと動かないので注意
   pythonOptions: ['-u'],
 };
 
@@ -53,7 +54,7 @@ app.get( '*', function ( req, res )
 })
 
 app.listen(process.env.PORT || serverConfig.port, () => {
-  logger.info(
-    `server starting -> [port] ${serverConfig.port} [env] ${process.env.NODE_ENV}`
-  );
+  //logger.info(
+   // `server starting -> [port] ${serverConfig.port} [env] ${process.env.NODE_ENV}`
+ // );
 });

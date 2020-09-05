@@ -7,7 +7,7 @@
     "test": "mocha --require ./test/enzyme.js --compilers js:babel-register --recursive $(find test -name '*.spec.js')",
     "precommit": "lint-staged",
     "lint": "eslint src --fix -c .eslintrc.json 'src/**/*.js'",
-    "server": "nodemon src/server/server.js  --exec babel-node",
+    "server": "nodemon src/server/server.mjs  --exec babel-node",
     "client": "webpack-dev-server --config ./config/webpack.config.dev.js",
     "build": "webpack --config ./config/webpack.config.js --mode production",
     "dev": "NODE_ENV=development concurrently \"npm run client\" \"npm run server\"",
