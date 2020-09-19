@@ -1,11 +1,9 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -13,37 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MainListItems from './dashboard/mainlistItems.js';
-import Chart from './dashboard/Chart.js';
-import TemperatureDisplay from './dashboard/TemperatureDisplay.js';
-import { TempDataContext } from './provider/tempDataProvider.js';
-import ScoreDisplay from './dashboard/scoreDisplay.js'
-import Title from './dashboard/Title.js';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import CompareChart from './dashboard/CompareChart.js';
-const apiURL = 'http://localhost:8080/api';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+import MainListItems from './tempDashboard/mainlistItems.js';
+import TempDashboard from './tempDashboard/TempDashboard.js'
 
 function getNowYMD() {
   var dt = new Date();
@@ -57,60 +29,6 @@ function getNowYMD() {
 
 export const App = () =>
 {
-  // useContextでThemeContextのstateとdispatchを使用する(コンテキスト値)
-  const { state,dispatch } = useContext( TempDataContext );
-  
-  const getData = () =>
-  {
-    axios
-      .get(apiURL + '/')
-      .then((res) => {
-        dispatch({
-          type: 'FETCH_SUCCESS',
-          payload: res.data,
-        });
-      })
-      .catch(() => {
-        dispatch({ type: 'FETCH_ERROR' });
-      });
-  };
-
-function createCompareData()
-{
-  if ( !state.isLoading )
-  {
-    const PredTemp = state.FittedPredData.slice( 0, 11 );
-    const ForecastMaxTemp = state.ActuallyMaxTempList;
-    const ForecastMinTemp = state.ActuallyMinTempList;
-    var List = [];
-    var diff = 0;
-    for ( let i = 0; i < PredTemp.length; i++ )
-    {
-      diff +=
-        Math.abs( PredTemp[i].MaxTemp - ForecastMaxTemp[i] ) +
-        Math.abs( PredTemp[i].MinTemp - ForecastMinTemp[i] );
-      List.push( {
-        time: PredTemp[i].time,
-        PredMaxTemp: PredTemp[i].MaxTemp,
-        PredMinTemp: PredTemp[i].MinTemp,
-        ForecastMaxTemp: ForecastMaxTemp[i],
-        ForecastMinTemp: ForecastMinTemp[i],
-      } );
-    }
-    return {
-      compareList: List,
-      compareDiff: diff / (List.length * 2),
-    };
-  }
-  return { compareList: [], compareDiff: 0 };
-  }
-  
-  var { compareList, compareDiff } = createCompareData();
-  //initState?
-  useEffect(() => {
-    getData();
-  }, []);
-
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const handleDrawerOpen = () => {
@@ -119,7 +37,6 @@ function createCompareData()
     const handleDrawerClose = () => {
       setOpen(false);
     };
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
       <div className={classes.root}>
@@ -174,112 +91,7 @@ function createCompareData()
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={12} lg={12}>
-                <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
-                  {state.isLoading ? (
-                    <LinearProgress />
-                  ) : (
-                    <Chart title={'Forecast'} />
-                  )}
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={6} md={6} lg={6}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>Max Temperature</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <TemperatureDisplay
-                      Temp={state.TodayMaxTemp}
-                      ActuallyTemp={state.ActuallyMaxTemp}
-                      TempTime={state.MaxTempTime}
-                    />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={6} lg={6}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>Min Temperature</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <TemperatureDisplay
-                      Temp={state.TodayMinTemp}
-                      ActuallyTemp={state.ActuallyMinTemp}
-                      TempTime={state.MinTempTime}
-                    />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={3} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>MaxTempScore</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={state.MaxTempScore} />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={3} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>MinTempScore</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={state.MinTempScore} />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={3} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>MaxTempPredR2Score</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={state.MaxTempPredR2Score} />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={6} md={3} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>MinTempPredR2Score</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={state.MinTempPredR2Score} />
-                  )}
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={8} md={8} lg={8}>
-                <Paper className={clsx(classes.paper, classes.fixedHeight2)}>
-                  {state.isLoading ? (
-                    <LinearProgress />
-                  ) : (
-                    <CompareChart data={compareList} title={'Compare'} />
-                  )}
-                </Paper>
-              </Grid>
-              <Grid item xs={4} md={4} lg={4}>
-                <Paper className={fixedHeightPaper}>
-                  <Title>Mean error</Title>
-                  {state.isLoading ? (
-                    <CircularProgress />
-                  ) : (
-                    <ScoreDisplay score={compareDiff} unit={'°C'} />
-                  )}
-                </Paper>
-              </Grid>
-            </Grid>
-            <Box pt={4}>
-              <Copyright />
-            </Box>
-          </Container>
+          <TempDashboard/>
         </main>
       </div>
     );
