@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext} from 'react';
 import './App.css';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MainListItems from './tempDashboard/mainlistItems.js';
-import TempDashboard from './tempDashboard/TempDashboard.js'
+import TempDashboard from './tempDashboard/TempDashboard.js';
+import { WeatherDashboard } from './weatherDashboard/weatherDashboard.js'
+import { IndexContext } from './provider/indexProvider.js'
 
 function getNowYMD() {
   var dt = new Date();
@@ -30,14 +32,15 @@ function getNowYMD() {
 export const App = () =>
 {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState( false );
     const handleDrawerOpen = () => {
       setOpen(true);
     };
     const handleDrawerClose = () => {
       setOpen(false);
     };
-
+  const { state } = useContext( IndexContext );
+  console.log(state)
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -91,7 +94,11 @@ export const App = () =>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <TempDashboard/>
+          {(() =>
+          {
+            if ( state.index == 0 ) {return <TempDashboard /> }
+            if ( state.index == 1 ) { return <WeatherDashboard /> }
+          })()}
         </main>
       </div>
     );

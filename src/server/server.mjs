@@ -46,7 +46,19 @@ app.get('/api', (req, res) => {
     }
   );
 
-})
+} )
+
+app.get('/weather', (req, res) => {
+  PythonShell.run(
+    '/Users/odatesshuu/program/react-starter-master/data/weather_forecast.py',
+    options,
+    function(err, result) {
+      if (err) throw err;
+      res.send(result);
+      console.log(result);
+    }
+  );
+});
 
 app.get( '*', function ( req, res )
 {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext }from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -7,17 +7,28 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import { FaThermometerHalf } from 'react-icons/fa';
+import {IndexContext} from '../provider/indexProvider.js'
 
-const MainListItems = () =>{
+const MainListItems = () =>
+{
+  const { dispatch } = useContext( IndexContext );
   return (
     <div>
-      <ListItem button>
+      <ListItem button onClick={() =>
+      {
+        
+        dispatch( { type: 'CHANGE_INDEX', payload: 0 } );
+      }}>
         <ListItemIcon>
           <FaThermometerHalf size={24} />
         </ListItemIcon>
         <ListItemText primary="Thermometer" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={() =>
+      {
+        console.log( 'click' )
+        dispatch( { type: 'CHANGE_INDEX', payload: 1 } );
+      }}>
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>

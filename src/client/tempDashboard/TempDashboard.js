@@ -12,6 +12,7 @@ import Link from '@material-ui/core/Link';
 import Chart from './Chart.js';
 import TemperatureDisplay from './TemperatureDisplay.js';
 import { TempDataContext } from '../provider/tempDataProvider.js';
+import { WeatherForecastContext } from '../provider/weatherForecastProvider.js'
 import ScoreDisplay from './scoreDisplay.js'
 import Title from './Title.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -19,6 +20,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CompareChart from './CompareChart.js';
 
 const apiURL = 'http://localhost:8080/api';
+const apiURL2 = 'http://localhost:8080//weather';
 
 function Copyright()
 {
@@ -38,6 +40,7 @@ const TempDashboard = () =>
 {
     // useContextでThemeContextのstateとdispatchを使用する(コンテキスト値)
     const { state, dispatch } = useContext( TempDataContext );
+    const { dispatch2 } = useContext( WeatherForecastContext );
 
     const getData = () =>
     {
@@ -54,6 +57,20 @@ const TempDashboard = () =>
             {
                 dispatch( { type: 'FETCH_ERROR' } );
             } );
+    };
+
+    const getWeatherData = () => {
+      axios
+        .get(apiURL2 + '/')
+        .then((res) => {
+          dispatch2({
+            type: 'FETCH_SUCCESS',
+            payload: res.data,
+          });
+        })
+        .catch(() => {
+          dispatch2({ type: 'FETCH_ERROR' });
+        });
     };
 
     function createCompareData()
@@ -91,6 +108,7 @@ const TempDashboard = () =>
     useEffect( () =>
     {
         getData();
+        getWeatherData();
     }, [] );
 
     const classes = useStyles();
