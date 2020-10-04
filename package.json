@@ -78,6 +78,9 @@
     "python-shell": "^2.0.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-icons": "^3.11.0",
+    "react-sticky-table": "^5.1.7",
+    "react-table": "^7.5.1",
     "recharts": "^1.8.5"
   }
 }

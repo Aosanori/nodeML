@@ -20,7 +20,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CompareChart from './CompareChart.js';
 
 const apiURL = 'http://localhost:8080/api';
-const apiURL2 = 'http://localhost:8080//weather';
+const apiURL2 = 'http://localhost:8080/weather';
 
 function Copyright()
 {
@@ -40,7 +40,7 @@ const TempDashboard = () =>
 {
     // useContextでThemeContextのstateとdispatchを使用する(コンテキスト値)
     const { state, dispatch } = useContext( TempDataContext );
-    const { dispatch2 } = useContext( WeatherForecastContext );
+    const weatherContext = useContext( WeatherForecastContext );
 
     const getData = () =>
     {
@@ -63,13 +63,13 @@ const TempDashboard = () =>
       axios
         .get(apiURL2 + '/')
         .then((res) => {
-          dispatch2({
+          weatherContext.dispatch({
             type: 'FETCH_SUCCESS',
             payload: res.data,
-          });
+          } );
         })
         .catch(() => {
-          dispatch2({ type: 'FETCH_ERROR' });
+          weatherContext.dispatch({ type: 'FETCH_ERROR' });
         });
     };
 

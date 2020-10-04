@@ -1,14 +1,16 @@
-from keras.optimizers import SGD
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import layers
 import pandas.tseries.offsets as offsets
 from sklearn.metrics import r2_score
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression as LR
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from sklearn.metrics import accuracy_score
+#from sklearn.externals import joblib
 
 data = pd.read_csv(
     "/Users/odatesshuu/program/react-starter-master/data/kyoto_test.csv")
@@ -56,9 +58,6 @@ df = week_dataset(df)
 
 df.head()
 
-print(len(df["Weather"].unique()))
-print(df["Weather"].unique())
-
 
 df["Weather"] = df['Weather'].astype(str)
 df['Weather'] = df['Weather'].str.replace('10.0|101.0', '雨', regex=True)
@@ -68,9 +67,7 @@ df['Weather'] = df['Weather'].str.replace('15.0', '曇', regex=True)
 df['Weather'] = df['Weather'].str.replace('2.0|1.0', '晴', regex=True)
 df['Weather'] = df['Weather'].str.replace('4.0|3.0', '曇', regex=True)
 
-print(df["Weather"].unique())
 categories = np.delete(df["Weather"].unique(), 0, 0)
-print(categories)
 category = len(df["Weather"].unique())
 
 
@@ -87,8 +84,6 @@ dummied_df = makeData(df)
 
 def makePredWeatherModel(df):
     train, test = train_test_split(df, test_size=0.35, shuffle=False)
-    print(len(train), 'train examples')
-    print(len(test), 'test examples')
     X_train = train.drop(columns=np.append(
         categories, ["Temp", "Pressure", "Humidity", "VaporPressure"]))
     Y_train = train.loc[:, categories]
@@ -105,9 +100,6 @@ def makePredWeatherModel(df):
     acc_score = accuracy_score(Y_test,  y_test_pred)
     #acc_score = clf.score(X_test,  y_test_pred)
     print(np.round(acc_score, 3))
-    if (acc_score > 0.8):
-        filename = 'finalized_Weather_Model.sav'
-        joblib.dump(clf, filename)
     return clf
 
 weatherClf = makePredWeatherModel(dummied_df)
@@ -140,10 +132,7 @@ def makePredRegressorModel(df, cat):
     clf = clf.fit(X_train, Y_train)
     y_test_pred = clf.predict(X_test)
     acc_score = r2_score(Y_test,  y_test_pred)
-    print(cat, np.round(acc_score, 3))
-    if (acc_score > 0.92):
-        filename = 'finalized_'+cat+'_Model.sav'
-        joblib.dump(clf, filename)
+    print(np.round(acc_score, 3))
     return clf
 
 
@@ -251,4 +240,4 @@ for g in range(1, 24):
                                              Humidity_Pred, VaporPressure_Pred, returnToWeather(Weather_Pred)]
     pred = newPred
 
-print(predList.to_json(date_format='iso'))
+print(predList.to_json(date_format='iso',force_ascii=False))

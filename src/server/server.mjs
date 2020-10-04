@@ -35,18 +35,20 @@ cron.schedule( '0 59 23 * * *', () =>
   );
 });
 
-app.get('/api', (req, res) => {
+app.get( '/api', ( req, res ) =>
+{
   PythonShell.run(
     '/Users/odatesshuu/program/react-starter-master/data/temp.py',
     options,
-    function(err, result) {
-      if (err) throw err;
-      res.send(result);
-      console.log(result);
+    function ( err, result )
+    {
+      if ( err ) throw err;
+      res.send( result );
+      console.log( result );
     }
   );
 
-} )
+} );
 
 app.get('/weather', (req, res) => {
   PythonShell.run(
@@ -62,7 +64,7 @@ app.get('/weather', (req, res) => {
 
 app.get( '*', function ( req, res )
 {
-  res.sendFile(path.join(__dirname + './', 'dist', 'index.html'));
+  res.sendFile( path.join( __dirname + './', 'dist', 'index.html' ) );
 })
 
 app.listen(process.env.PORT || serverConfig.port, () => {
