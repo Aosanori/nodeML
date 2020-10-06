@@ -12,6 +12,27 @@ import { StickyTable, Row, Cell } from 'react-sticky-table';
 import Title from '../tempDashboard/Title.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ScoreDisplay from '../tempDashboard/scoreDisplay.js';
+import { WiDaySunny } from 'weather-icons-react';
+import { WiCloud } from 'weather-icons-react';
+import { WiRain } from 'weather-icons-react';
+import { WiSnow } from 'weather-icons-react';
+
+function stringToImageWeather (weather) {
+    if ( weather == '晴' )
+    {
+        return <WiDaySunny size={24} color="#000" />;
+    }
+    if (weather == '曇') {
+     return <WiCloud size={24} color="#000" />;
+    }
+    if (weather == '雨') {
+     return <WiRain size={24} color="#000" />;
+    }
+    if (weather == '雪') {
+     return <WiSnow size={24} color="#000" />;
+    }
+    return weather;
+}
 
 
 export const WeatherDashboard = () =>
@@ -39,7 +60,7 @@ export const WeatherDashboard = () =>
            <Row>
             <Cell>天気</Cell>
             {state.PredWeather.map((item, i) => {
-             return <Cell key={i}>{item.Weather}</Cell>; //keyを指定
+             return <Cell key={i}>{stringToImageWeather(item.Weather)}</Cell>; //keyを指定
             })}
            </Row>
            <Row>
