@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-const mergeLists = ( array1, array2,array3,array4) =>
-  array1.map((_, i) => Object.assign(array1[i], array2[i],array3[i],array4[i]));
+const mergeLists = ( array1: any, array2: any,array3: any,array4: any,array5: any) =>
+  array1.map((_: any, i: any) => Object.assign(array1[i], array2[i],array3[i],array4[i],array5[i]));
 
-  function dataLists(PredData) {
+  function dataLists(PredData: any) {
     if (PredData !== undefined) {
       const WeatherList = Object.entries(PredData.Weather).map(
        ([key, value]) => ({
@@ -13,14 +13,14 @@ const mergeLists = ( array1, array2,array3,array4) =>
         Weather: value,
        }),
       );
-      const TempList = Object.entries(PredData.Temp).map(([key, value]) => ({
+      const TempList = Object.entries(PredData.Temp).map(([key, value]:any) => ({
        time: moment(key)
         .utc()
         .format('DD日HH時'),
        Temp: Math.round(value * 10) / 10,
       }));
         const PressureList = Object.entries(PredData.Pressure).map(
-         ([key, value]) => ({
+         ([key, value]:any) => ({
           time: moment(key)
            .utc()
            .format('DD日HH時'),
@@ -28,18 +28,26 @@ const mergeLists = ( array1, array2,array3,array4) =>
          }),
         );
         const HumidityList = Object.entries(PredData.Humidity).map(
-         ([key, value]) => ({
+         ([key, value]:any) => ({
           time: moment(key)
            .utc()
            .format('DD日HH時'),
           Humidity: Math.round(value * 10) / 10,
          }),
         );
-      return mergeLists(WeatherList,TempList,PressureList,HumidityList);
+      const ProbabilityOfRainList = Object.entries(PredData.ProbabilityOfRain).map(
+         ([key, value]:any) => ({
+          time: moment(key)
+           .utc()
+           .format('DD日HH時'),
+          ProbabilityOfRain: (Math.round(value * 10) / 10)*100,
+         }),
+        );
+      return mergeLists(WeatherList,TempList,PressureList,HumidityList,ProbabilityOfRainList);
     }
     return [];
   }
-const weatherForecastReducer = ( dataState, action ) =>
+const weatherForecastReducer = ( dataState: any, action: any ) =>
 {
   switch (action.type) {
     case 'FETCH_INIT':
@@ -53,20 +61,11 @@ const weatherForecastReducer = ( dataState, action ) =>
     // 成功なので、isErrorは''
     // postにはactionで渡されるpayloadを代入
       case 'FETCH_SUCCESS':
-          console.log( JSON.parse( action.payload[9]) )
+          console.log( JSON.parse( action.payload) )
           return {
               isLoading: false,
               isError: '',
-              WeatherAccuracy: action.payload[0],
-              TemperatureAccuracy: action.payload[1],
-              PressureAccuracy: action.payload[2],
-              HumidityAccuracy: action.payload[3],
-              VaporPressureAccuracy: action.payload[4],
-              PredTempR2Score: action.payload[5],
-              PredPressureR2Score: action.payload[6],
-              PredHumidityR2Score: action.payload[7],
-              PredVaporPressureR2Score: action.payload[8],
-              PredWeather: dataLists(JSON.parse( action.payload[9] )),
+              PredWeather: dataLists(JSON.parse( action.payload )),
           };
     // データの取得に失敗した場合
     // 成功なので、isErrorにエラーメッセージを設定

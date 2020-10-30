@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {TempDataContext}from'../provider/tempDataProvider';
 
-function preventDefault(event) {
+function preventDefault(event: any) {
   event.preventDefault();
 }
 
@@ -16,10 +16,7 @@ const useStyles = makeStyles({
 } );
 
 // eslint-disable-next-line react/prop-types
-const TemperatureDisplay = (props) =>
-{ 
-  const { state } = useContext(TempDataContext); 
-  console.log(state)
+const TemperatureDisplay = (props: any) => { 
   const classes = useStyles();
   return (
     <React.Fragment>

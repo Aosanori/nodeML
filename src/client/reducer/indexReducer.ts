@@ -1,4 +1,4 @@
-const indexReducer = ( dataState, action ) =>
+const indexReducer = ( dataState: any, action: any ) =>
 {
     console.log( 'click' )
     switch ( action.type )

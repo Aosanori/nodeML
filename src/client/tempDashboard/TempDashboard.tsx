@@ -9,18 +9,18 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import Chart from './Chart.js';
-import TemperatureDisplay from './TemperatureDisplay.js';
-import { TempDataContext } from '../provider/tempDataProvider.js';
-import { WeatherForecastContext } from '../provider/weatherForecastProvider.js'
-import ScoreDisplay from './scoreDisplay.js'
-import Title from './Title.js';
+import Chart from './Chart';
+import TemperatureDisplay from './TemperatureDisplay';
+import { TempDataContext } from '../provider/tempDataProvider';
+import { WeatherForecastContext } from '../provider/weatherForecastProvider'
+import ScoreDisplay from './scoreDisplay'
+import Title from './Title';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import CompareChart from './CompareChart.js';
+import CompareChart from './CompareChart';
 
-const apiURL = 'http://localhost:8080/api';
-const apiURL2 = 'http://localhost:8080/weather';
+const apiURL = 'http://localhost:7070/api';
+const apiURL2 = 'http://localhost:7070/weather';
 
 function Copyright()
 {

@@ -1,16 +1,18 @@
 import React, { useReducer,createContext } from 'react';
 
-import tempDataFetchReducer from '../reducer/tempDataFetchReducer.js';
-import initialTempState from '../initialState/initialTempState.js';
+import tempDataFetchReducer from '../reducer/tempDataFetchReducer';
+import initialTempState from '../initialState/initialTempState';
 
 // React Contextの作成
-export const TempDataContext = createContext();
+export const TempDataContext = createContext<any>({});
 // Reducer関数の初期値
 
 
 // コンテキストプロバイダーコンポーネント
 // eslint-disable-next-line react/prop-types
-export const TempDataContextProvider = ( { children } ) =>
+export const TempDataContextProvider = ( {
+  children
+}: any ) =>
 {
   // useReducerでreducer関数と初期値をセット
   const [state, dispatch] = useReducer(

@@ -4,15 +4,16 @@ import config from 'config';
 configure(config.get('log'));
 
 class Log {
+  logger: any;
   constructor() {
     this.logger = getLogger();
   }
 
-  info(log) {
+  info(log: any) {
     this.logger.info(log);
   }
 
-  error(log) {
+  error(log: any) {
     this.logger.error(log);
   }
 }

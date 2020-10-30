@@ -1,25 +1,23 @@
 import express from 'express';
 import path from 'path';
 import config from 'config';
-import Python from 'python-shell';
-const {PythonShell}=Python
+import { PythonShell } from 'python-shell';
 //import {logger} from './config.js';
 import cron from 'node-cron' ;
 import cors from 'cors' 
 
 const app = express();
 app.use( cors() );
-const serverConfig = config.get('server');
+const serverConfig :any = config.get('server');
 
 app.use( express.static( path.join( './', 'dist' ) ) );
 
 
 
-const options = {
+const options:any= {
   mode: 'text', // textもしくはjson
   pythonPath:
-    '/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python' ||
-    '/usr/local/bin/python', // Python3のパスを指定しないと動かないので注意
+    '/Users/odatesshuu/.pyenv/versions/3.8.5/bin/python',
   pythonOptions: ['-u'],
 };
 
@@ -67,7 +65,7 @@ app.get( '*', function ( req, res )
   res.sendFile( path.join( __dirname + './', 'dist', 'index.html' ) );
 })
 
-app.listen(process.env.PORT || serverConfig.port, () => {
+app.listen(process.env.PORT || serverConfig.port , () => {
   //logger.info(
    // `server starting -> [port] ${serverConfig.port} [env] ${process.env.NODE_ENV}`
  // );

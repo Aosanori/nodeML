@@ -1,16 +1,16 @@
 import moment from 'moment';
 
-const mergeLists = (array1, array2) =>
-  array1.map( ( _, i ) => Object.assign( array1[i], array2[i] ) );
+const mergeLists = (array1: any, array2: any) =>
+  array1.map( ( _: any, i: any ) => Object.assign( array1[i], array2[i] ) );
 
-function dataLists(PredData)
+function dataLists(PredData: any)
 {
   if (PredData !== undefined) {
-    const maxList = Object.entries(PredData.Max).map(([key, value]) => ({
+    const maxList = Object.entries(PredData.Max).map(([key, value]:any) => ({
       time: moment(key).format('YYYY/MM/DD'),
       MaxTemp: Math.round(value * 10) / 10,
     }));
-    const minList = Object.entries(PredData.Min).map(([key, value]) => ({
+    const minList = Object.entries(PredData.Min).map(([key, value]:any) => ({
       time: moment(key).format('YYYY/MM/DD'),
       MinTemp: Math.round(value * 10) / 10,
     }));
@@ -19,7 +19,7 @@ function dataLists(PredData)
   return [];
 }
 
-const tempDataFetchReducer = ( dataState, action ) =>
+const tempDataFetchReducer = ( dataState: any, action: any ) =>
 {
   switch (action.type) {
     case 'FETCH_INIT':

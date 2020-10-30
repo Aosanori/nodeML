@@ -8,7 +8,7 @@ const data = [
   { name: 'Group D', value: 200 },
 ];
 
-const renderActiveShape = (props) => {
+const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
@@ -81,14 +81,16 @@ const renderActiveShape = (props) => {
   );
 };
 
-export default class ErrorPieChart extends PureComponent {
+type ErrorPieChartState = any;
+
+export default class ErrorPieChart extends PureComponent<{}, ErrorPieChartState> {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/hqnrgxpj/';
 
   state = {
     activeIndex: 0,
   };
 
-  onPieEnter = (data, index) => {
+  onPieEnter = (data: any, index: any) => {
     this.setState({
       activeIndex: index,
     });

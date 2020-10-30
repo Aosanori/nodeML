@@ -7,7 +7,7 @@
     "test": "mocha --require ./test/enzyme.js --compilers js:babel-register --recursive $(find test -name '*.spec.js')",
     "precommit": "lint-staged",
     "lint": "eslint src --fix -c .eslintrc.json 'src/**/*.js'",
-    "server": "nodemon src/server/server.mjs  --exec babel-node",
+    "server": "nodemon src/server/server.ts  --exec babel-node",
     "client": "webpack-dev-server --config ./config/webpack.config.dev.js",
     "build": "webpack --config ./config/webpack.config.js --mode production",
     "dev": "NODE_ENV=development concurrently \"npm run client\" \"npm run server\"",
@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/react-dom": "^16.9.9",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
@@ -42,12 +43,17 @@
     "lint-staged": "^7.3.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.5",
-    "prettier": "^1.14.3",
+    "prettier": "^2.1.2",
     "prettier-eslint-cli": "^4.7.1",
     "react-addons-test-utils": "^15.6.2",
     "react-hot-loader": "^4.3.12",
     "sinon": "^7.1.1",
     "style-loader": "^0.23.1",
+    "ts-migrate": "^0.1.7",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.3.0",
+    "typescript": "^4.0.5",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.4.0",
@@ -82,6 +88,7 @@
     "react-sticky-table": "^5.1.7",
     "react-table": "^7.5.1",
     "recharts": "^1.8.5",
+    "ts-loader": "^8.0.7",
     "weather-icons-react": "^1.2.0"
   }
 }

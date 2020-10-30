@@ -14,10 +14,10 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MainListItems from './tempDashboard/mainlistItems.js';
-import TempDashboard from './tempDashboard/TempDashboard.js';
-import { WeatherDashboard } from './weatherDashboard/weatherDashboard.js'
-import { IndexContext } from './provider/indexProvider.js'
+import MainListItems from './tempDashboard/mainlistItems';
+import TempDashboard from './tempDashboard/TempDashboard';
+import { WeatherDashboard } from './weatherDashboard/weatherDashboard'
+import { IndexContext } from './provider/indexProvider'
 
 function getNowYMD() {
   var dt = new Date();

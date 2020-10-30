@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python"
+    "python.pythonPath": "/Users/odatesshuu/.pyenv/versions/3.7.6/bin/python",
+    "tslint.configFile": "tslint.json",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true
+    }
 }

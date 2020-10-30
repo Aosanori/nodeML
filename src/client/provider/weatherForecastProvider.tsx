@@ -1,15 +1,17 @@
 import React, { useReducer, createContext } from 'react';
 
-import weatherForecastReducer from '../reducer/weatherForecastReducer.js';
-import initialTempState from '../initialState/initialTempState.js';
+import weatherForecastReducer from '../reducer/weatherForecastReducer';
+import initialTempState from '../initialState/initialTempState';
 
 // React Contextの作成
-export const WeatherForecastContext = createContext();
+export const WeatherForecastContext = createContext<any>({});
 // Reducer関数の初期値
 
 // コンテキストプロバイダーコンポーネント
 // eslint-disable-next-line react/prop-types
-export const WeatherForecastContextProvider = ({ children }) => {
+export const WeatherForecastContextProvider = ({
+  children
+}: any) => {
          // useReducerでreducer関数と初期値をセット
          const [state, dispatch] = useReducer(
            weatherForecastReducer,

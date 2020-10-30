@@ -2,12 +2,12 @@ import React, { useContext }from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import { FaThermometerHalf } from 'react-icons/fa';
-import {IndexContext} from '../provider/indexProvider.js'
+import {IndexContext} from '../provider/indexProvider'
 
 const MainListItems = () =>
 {
@@ -30,9 +30,9 @@ const MainListItems = () =>
         dispatch( { type: 'CHANGE_INDEX', payload: 1 } );
       }}>
         <ListItemIcon>
-          <ShoppingCartIcon />
+          <WbSunnyIcon />
         </ListItemIcon>
-        <ListItemText primary="Orders" />
+        <ListItemText primary="Weather Forecast" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>

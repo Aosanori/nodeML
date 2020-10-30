@@ -12,9 +12,9 @@ import {
   Tooltip,
 } from 'recharts';
 import moment from 'moment';
-import Title from './Title.js';
+import Title from './Title';
 
-const CompareChart = (props) => {
+const CompareChart = (props: any) => {
   const theme = useTheme();
   return (
     <React.Fragment>
@@ -32,7 +32,7 @@ const CompareChart = (props) => {
           <XAxis
             dataKey="time"
             stroke={theme.palette.text.secondary}
-            labelFormatter={(props) => moment(props).format('YYYY/MM/DD(ddd)')}
+            //labelFormatter={(props: any) => moment(props).format('YYYY/MM/DD(ddd)')}
           />
           <YAxis stroke={theme.palette.text.secondary}>
             <Label
@@ -48,7 +48,7 @@ const CompareChart = (props) => {
             strokeDasharray="3 3"
           />
           <Tooltip // ツールチップの表示
-            labelFormatter={(props) => moment(props).format('YYYY/MM/DD(ddd)')} // ラベルの表示フォーマット（日付）
+            labelFormatter={(props: any) => moment(props).format('YYYY/MM/DD(ddd)')} // ラベルの表示フォーマット（日付）
           />
           <Line
             type="monotone"

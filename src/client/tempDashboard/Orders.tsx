@@ -6,10 +6,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from './Title.js';
+import Title from './Title';
 
 // Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
+function createData(id: any, date: any, name: any, shipTo: any, paymentMethod: any, amount: any) {
   return { id, date, name, shipTo, paymentMethod, amount };
 }
 
@@ -21,7 +21,7 @@ const rows = [
   createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
 ];
 
-function preventDefault(event) {
+function preventDefault(event: any) {
   event.preventDefault();
 }
 
